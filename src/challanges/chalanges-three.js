@@ -13,3 +13,23 @@
 
 
 //------------------------------------------------------------------------------------
+
+function income(data){
+
+    const ingredientsList = Object.values(data.recipes).map((entrys) => {
+        const { name , ingredients } = entrys;
+        return {name , ingredients } 
+    })
+    
+
+    const sales = Object.values(data.salesOfLastWeek).map((entrys) => {
+        const { name, amount } = entrys;
+        return {
+          name,
+          amount,
+        };
+      });
+
+      
+      }
+module.exports = income
