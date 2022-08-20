@@ -16,20 +16,19 @@
 
 function income(data){
 
-    const ingredientsList = Object.values(data.recipes).map((entrys) => {
-        const { name , ingredients } = entrys;
-        return {name , ingredients } 
-    })
-    
+  const sales = Object.values(data.salesOfLastWeek).map((entrys) => {
+    const { name, amount } = entrys;
+    return {
+      name,
+      amount,
+    };
+  });
 
-    const sales = Object.values(data.salesOfLastWeek).map((entrys) => {
-        const { name, amount } = entrys;
-        return {
-          name,
-          amount,
-        };
-      });
+  
+  let ingredientsPrice = (salesItem) => {
+    const price = bakeryPrices.find(({ name }) => name === salesItem.name);
+    return ;
+  };
 
-      
-      }
+}
 module.exports = income
