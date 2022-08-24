@@ -12,10 +12,11 @@
 // and price of each item.
 //------------------------------------------------------------------------------------
 
-const bakeryData = require('../data/bakery.json')
+const bakeryData = require("../data/bakery.json");
+const answerTojson = require("../utils/answerTojson");
 
-function allergies(data) {
-
+/* Filtering the data based on the function passed in. */
+function TaskGroupByIntolerance(data) {
   function isGlutenFree(value) {
     return value.glutenFree == true;
   }
@@ -31,6 +32,8 @@ function allergies(data) {
     return { name, price };
   }
 
+/* The above code is filtering through the data.recipes object and returning the name and price of the
+recipes that are gluten free, lactose free, and both. */
   const alergen = {
     glutenFree: Object.values(data.recipes)
       .filter((glutenFREE) => isGlutenFree(glutenFREE))
@@ -40,18 +43,14 @@ function allergies(data) {
       .filter((lactoseFREE) => isLactoseFree(lactoseFREE))
       .map((lactoseFREE) => nameAndPrice(lactoseFREE)),
 
-    lactoseAndGlutenFree: Object.values(data.recipes).filter((alergenFREE) =>
-      isLactoseAndGlutenFree(alergenFREE)).map((alergenFREE) =>
-        nameAndPrice(alergenFREE))
-      
-    ,
+    lactoseAndGlutenFree: Object.values(data.recipes)
+      .filter((alergenFREE) => isLactoseAndGlutenFree(alergenFREE))
+      .map((alergenFREE) => nameAndPrice(alergenFREE)),
   };
 
   return alergen;
 }
 
-const answerForChallangeTwo = allergies(bakeryData)
+const answerForChallangeTwo = TaskGroupByIntolerance(bakeryData);
 
-console.log(answerForChallangeTwo)
-
-module.exports = answerForChallangeTwo;
+answerTojson(TaskGroupByIntolerance(bakeryData), "answerTwo.json");

@@ -48,38 +48,31 @@
 //------------------------------------------------------------------------------------
 
 const bakeryData = require("../data/bakery.json");
+const answerTojson = require("../utils/answerTojson");
+const unitconvert = require("../utils/unitcovert");
+const cakesForWedding = require("../data/cakesForWedding.json")
 
-const cakesForWedding = [
-  {
-    name: "Francia krémes",
-    amount: 300,
-  },
-  {
-    name: "Rákóczi túrós",
-    amount: 200,
-  },
-  {
-    name: "Képviselőfánk",
-    amount: 300,
-  },
-  {
-    name: "Isler",
-    amount: 100,
-  },
-  {
-    name: "Tiramisu",
-    amount: 150,
-  },
-];
-
-function wedding(bakeryData, cakesForWedding) {
+function TaskCalcOrderForWedding(bakeryData, cakesForWedding) {
   
   const wholesale = bakeryData.wholesalePrices;
 
+/* Creating a new array with the name and ingredients of each recipe. */
   const recepiesNameAndIngredients = bakeryData.recipes.map((element) => {
     return { name :element.name , ingredients: element.ingredients };
   });
 
+
+
+/**
+ * It takes an array of objects, and returns an array of objects, where each object has the same name
+ * and ingredients as the original object, but with an additional amount property.
+ * @param cake - {name: String, amount:  Number}
+ * @returns return {
+ *       name: elem.name,
+ *       ingredients: elem.ingredients,
+ *       amount: cake.amount,
+ *     };
+ */
   const wedding = (cake) => {
     const elem = recepiesNameAndIngredients.find(
       (element) => element.name == cake.name
@@ -91,34 +84,31 @@ function wedding(bakeryData, cakesForWedding) {
     };
   };
 
-
   const cakes = cakesForWedding.map((element) => wedding(element));
 
-  const amountIncrease = cakes.map((element) => {
-    element.ingredients.forEach((elem) => {
-      const unitNum = elem.amount.split(" ");
-      switch (unitNum[1]) {
-        case "ml":
-          unitNum[0] = Number((unitNum[0] / 1000) * element.amount);
-          unitNum[1] = "l";
-          break;
-        case "g":
-          unitNum[0] = Number((unitNum[0] / 1000) * element.amount);
-          unitNum[1] = "kg";
-          break;
-        case "pc":
-          unitNum[0] = Number(unitNum[0] * element.amount);
-          unitNum[1] = "pc";
-        default:
-          break;
-      }
-      elem.amount = unitNum.join(" ");
 
-      return elem.amount;
-    });
-    return element;
-  });
+  /* Converting the units of the ingredients to liters and kilograms. */
+  const amountIncrease =unitconvert(cakes ,"element")
+ 
 
+/**
+ * For each recipe, for each ingredient, find the ingredient in the wholesale array, calculate the
+ * price of the ingredient in the recipe, and add the price to the ingredient in the recipe.
+ * @param value - "1/2 cup"
+ * @returns [
+ *   {
+ *     "name": "Cake",
+ *     "ingredients": [
+ *       {
+ *         "name": "Flour",
+ *         "amount": "1 cup",
+ *         "price": "0.25"
+ *       },
+ *       {
+ *         "name": "Sugar",
+ *         "amount": "1 cup",
+ *         "
+ */
   function search(value) {
     const item = wholesale.filter((element) => element.name == value);
     return item;
@@ -141,6 +131,7 @@ function wedding(bakeryData, cakesForWedding) {
     }
   }
 
+/* Calculating the total price of the ingredients. */
   let totalIngredienPrice = 0;
   for (let i = 0; i < amountIncrease.length; i++) {
     for (let j = 0; j < amountIncrease[i].ingredients.length; j++) {
@@ -150,4 +141,4 @@ function wedding(bakeryData, cakesForWedding) {
   return totalIngredienPrice;
 }
 
-console.log(wedding(bakeryData, cakesForWedding));
+answerTojson(TaskCalcOrderForWedding(bakeryData, cakesForWedding), "answerFive.json");

@@ -11,7 +11,8 @@
 
 //------------------------------------------------------------------------------------
 
-const bakeryData = require('../data/bakery.json')
+const bakeryData = require("../data/bakery.json");
+const answerTojson = require("../utils/answerTojson");
 
 /**
  * It takes an object with a name and amount property, finds the price of the item with the same name,
@@ -20,7 +21,7 @@ const bakeryData = require('../data/bakery.json')
  * @returns The total income of the bakery for the week.
  */
 
-function salesOfLastWeek(data) {
+function TaskSumTotalSales(data) {
   /* Taking the data from the recipes object and mapping it to a new array. It is then taking the
     name and price from the object and assigning it to a new object. It is then taking the price and
     converting it to a number. */
@@ -60,14 +61,8 @@ function salesOfLastWeek(data) {
   });
 
   return initValue;
-  
-};
+}
 
-console.log(`Answer for Challange - One : ${salesOfLastWeek(bakeryData)}`)
+answerTojson(TaskSumTotalSales(bakeryData), "answerOne.json");
 
-
-module.exports=
-  salesOfLastWeek
-;
-
-
+module.exports = TaskSumTotalSales;
