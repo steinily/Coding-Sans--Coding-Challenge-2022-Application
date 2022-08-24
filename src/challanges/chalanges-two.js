@@ -36,12 +36,12 @@ function TaskGroupByIntolerance(data) {
 recipes that are gluten free, lactose free, and both. */
   const alergen = {
     glutenFree: Object.values(data.recipes)
-      .filter((glutenFREE) => isGlutenFree(glutenFREE))
+      .filter((glutenFREE) => isGlutenFree(glutenFREE) && !isLactoseFree(glutenFREE))
       .map((glutenFREE) => nameAndPrice(glutenFREE)),
 
     lactoseFree: Object.values(data.recipes)
-      .filter((lactoseFREE) => isLactoseFree(lactoseFREE))
-      .map((lactoseFREE) => nameAndPrice(lactoseFREE)),
+      .filter((lactoseFREE) => isLactoseFree(lactoseFREE) && !isGlutenFree(lactoseFREE) )
+      .map((lactoseFREE) => nameAndPrice(lactoseFREE) ),
 
     lactoseAndGlutenFree: Object.values(data.recipes)
       .filter((alergenFREE) => isLactoseAndGlutenFree(alergenFREE))

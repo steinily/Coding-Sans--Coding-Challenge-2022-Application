@@ -42,7 +42,7 @@ function TaskCalcTotalBakeableAmount(bakeryData) {
   function maxCapacity(ingredients, inventory) {
     let ing = ingredients.amount.split(" ");
     let inv = inventory.amount.split(" ");
-    return Number.parseFloat(inv[0] / ing[0]).toFixed(2);
+    return Number.parseFloat(inv[0] / ing[0]);
   }
 
   const inventoryMaxBakeCapacity = recepiesNameAndIngredients.map((element) => {
@@ -56,18 +56,9 @@ function TaskCalcTotalBakeableAmount(bakeryData) {
   });
 
   /* Sorting the array of objects by name. */
-  const recipeSort = inventoryMaxBakeCapacity.sort((a, b) => {
-    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    // names must be equal
-    return 0;
-  });
+  const recipeSort = inventoryMaxBakeCapacity.sort((a, b) =>
+    a.name.localeCompare(b.name , 'hu')
+  );
 
   /* Sorting the ingredients of each recipe by the maximum capacity of each ingredient. */
   for (let i = 0; i < recipeSort.length; i++) {
@@ -76,7 +67,7 @@ function TaskCalcTotalBakeableAmount(bakeryData) {
 
   /* Creating a new array of objects with the name and amount of each recipe. */
   const maxBakingCapacity = recipeSort.map((elem) => {
-    return { name: elem.name, amount: Number.parseFloat(elem.ingredients[0].max).toFixed(0) };
+    return { name: elem.name, amount: Math.floor(Number.parseFloat(elem.ingredients[0].max)) };
   });
 
   return maxBakingCapacity;

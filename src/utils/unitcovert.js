@@ -3,24 +3,26 @@
 
 function unitconvert (data,multiple=1) {
 
-   return data.map((element) => {
-        element.ingredients.forEach((elem) => {
-          const unitNum = elem.amount.split(" ");
-          if(multiple == 'element'){
-            multiple = element.amount
-          }
+   return data.map((element,idx) => {
+    if(multiple == 'elem'){
+      multip = element.amount
+    }else{
+      multip=1
+    }
 
+        element.ingredients.forEach((elem, idx) => {
+          const unitNum = elem.amount.split(" ")
           switch (unitNum[1]) {
             case "ml":
-              unitNum[0] = Number((unitNum[0] / 1000) * multiple);
+              unitNum[0] = Number.parseFloat((unitNum[0] / 1000) * multip);
               unitNum[1] = "l";
               break;
             case "g":
-              unitNum[0] = Number((unitNum[0] / 1000) * multiple);
+              unitNum[0] = Number.parseFloat((unitNum[0] / 1000) * multip);
               unitNum[1] = "kg";
               break;
             case "pc":
-              unitNum[0] = Number(unitNum[0] * multiple);
+              unitNum[0] = Number.parseFloat(unitNum[0] * multip);
               unitNum[1] = "pc";
             default:
               break;

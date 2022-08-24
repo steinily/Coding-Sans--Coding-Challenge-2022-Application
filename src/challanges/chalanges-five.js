@@ -88,8 +88,8 @@ function TaskCalcOrderForWedding(bakeryData, cakesForWedding) {
 
 
   /* Converting the units of the ingredients to liters and kilograms. */
-  const amountIncrease =unitconvert(cakes ,"element")
- 
+
+const amountIncrease =unitconvert(cakes ,"elem")
 
 /**
  * For each recipe, for each ingredient, find the ingredient in the wholesale array, calculate the
@@ -116,7 +116,7 @@ function TaskCalcOrderForWedding(bakeryData, cakesForWedding) {
   function calculate(amount, value, price) {
     numAmount = amount.split(" ");
     numValue = value.split(" ");
-    calc = Number.parseFloat((numAmount[0] / numValue[0]) * price).toFixed(2);
+    calc = (Number.parseFloat((numAmount[0] / numValue[0]) * price));
     return calc;
   }
 
@@ -131,14 +131,19 @@ function TaskCalcOrderForWedding(bakeryData, cakesForWedding) {
     }
   }
 
+  console.log(amountIncrease.map(elem => console.log(elem)))
 /* Calculating the total price of the ingredients. */
+
   let totalIngredienPrice = 0;
   for (let i = 0; i < amountIncrease.length; i++) {
     for (let j = 0; j < amountIncrease[i].ingredients.length; j++) {
-      totalIngredienPrice += Number(amountIncrease[i].ingredients[j].price);
+      totalIngredienPrice += Math.floor(Number(amountIncrease[i].ingredients[j].price));
     }
   }
   return totalIngredienPrice;
 }
 
 answerTojson(TaskCalcOrderForWedding(bakeryData, cakesForWedding), "answerFive.json");
+
+
+//Problem - Ha a wholesale 10kg de csak 2kg-m van akkor is meg kell venni a 10 kg-t

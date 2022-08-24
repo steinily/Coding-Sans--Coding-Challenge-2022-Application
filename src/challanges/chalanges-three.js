@@ -40,7 +40,7 @@ function TaskSumTotalProfit(bakeryData) {
         if (element.name == name) {
           element.ingredients.forEach((elems) => {
             num = elems.amount.split(" ");
-            num[0] = (Number.parseFloat(num[0]) * amount).toFixed(2);
+            num[0] = (Number.parseFloat(num[0]) * amount);
             elems.amount = num.join(" ");
             return elems.amount;
           });
@@ -86,7 +86,7 @@ function TaskSumTotalProfit(bakeryData) {
   function calculate(amount, value, price) {
     numAmount = amount.split(" ");
     numValue = value.split(" ");
-    calc = Number.parseFloat((numAmount[0] / numValue[0]) * price).toFixed(2);
+    calc = Number.parseFloat((numAmount[0] / numValue[0]) * price);
     return calc;
   }
 
@@ -100,17 +100,18 @@ function TaskSumTotalProfit(bakeryData) {
       );
     }
   }
-
+console.log(usedIngredients.map(elem => elem.ingredients))
   /* Adding the price of all the ingredients used. */
-  let totalIngredienPrice = 0;
+  let totalIngredienPrice =0.00 ;
+
   for (let i = 0; i < usedIngredients.length; i++) {
     for (let j = 0; j < usedIngredients[i].ingredients.length; j++) {
-      totalIngredienPrice += Number(usedIngredients[i].ingredients[j].price);
+      totalIngredienPrice += Number.parseFloat(usedIngredients[i].ingredients[j].price);
     }
   }
-
+  console.log(totalIngredienPrice)
   const totalIncomeLastWeek =
-    TaskSumTotalSales(bakeryData) - totalIngredienPrice;
+    Number.parseFloat(TaskSumTotalSales(bakeryData) - totalIngredienPrice);
 
   return totalIncomeLastWeek;
 }

@@ -242,8 +242,8 @@ together. */
         } else {
           TaskCalcFutureSales.push({
             name: total[i].name,
-            amount: Number.parseFloat(finalAmount).toFixed(2) + " " + tAnum[1],
-            totalPrice: finalPrice,
+            amount: Number.parseFloat(finalAmount).toFixed(0) + " " + tAnum[1],
+            totalPrice: Number.parseFloat(finalPrice).toFixed(0),
           });
         }
       }
