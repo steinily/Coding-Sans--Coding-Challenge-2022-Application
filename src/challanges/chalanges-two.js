@@ -12,6 +12,8 @@
 // and price of each item.
 //------------------------------------------------------------------------------------
 
+const bakeryData = require('../data/bakery.json')
+
 function allergies(data) {
 
   function isGlutenFree(value) {
@@ -48,4 +50,8 @@ function allergies(data) {
   return alergen;
 }
 
-module.exports = allergies;
+const answerForChallangeTwo = allergies(bakeryData)
+
+console.log(answerForChallangeTwo)
+
+module.exports = answerForChallangeTwo;

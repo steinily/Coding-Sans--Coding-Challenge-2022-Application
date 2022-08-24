@@ -14,21 +14,109 @@
 
 //------------------------------------------------------------------------------------
 
-function income(data){
 
-  const sales = Object.values(data.salesOfLastWeek).map((entrys) => {
-    const { name, amount } = entrys;
-    return {
-      name,
-      amount,
-    };
-  });
+const bakeryData = require('../data/bakery.json')
+const salesOfLastWeek = require('./chalanges-one')
 
-  
-  let ingredientsPrice = (salesItem) => {
-    const price = bakeryPrices.find(({ name }) => name === salesItem.name);
-    return ;
-  };
+function totalIncome(bakeryData){
 
-}
-module.exports = income
+    const recipes = bakeryData.recipes
+    const sales = bakeryData.salesOfLastWeek
+    const wholesale = bakeryData.wholesalePrices
+
+    const recepiesNameAndIngredients = recipes.map(element => {
+        const name = element.name ;
+        const ingredients = element.ingredients;
+        return{name ,ingredients}
+    })
+
+    const unitChange = recepiesNameAndIngredients.map((element) =>
+        {element.ingredients.forEach(elem =>{
+            const unitNum = elem.amount.split(" ")
+            switch(unitNum[1]){
+                case 'ml' :
+                    unitNum[0] = Number(unitNum[0]/1000)
+                    unitNum[1] = 'l'
+                    break;
+                case 'g':
+                    unitNum[0] = Number(unitNum[0]/1000)
+                    unitNum[1] = 'kg';
+                    break;
+                default:
+                    break;
+                            }
+            elem.amount = unitNum.join(" ")
+
+            return elem.amount;})
+        return element});
+
+
+
+    const usedIngredients = unitChange.map(element =>{
+        sales.map(elem => {
+        const {name , amount} = elem
+        if(element.name == name){
+            element.ingredients.forEach(elems => {
+                num = elems.amount.split(" ")
+                num[0] = (Number.parseFloat(num[0]) * amount).toFixed(2)
+                elems.amount=num.join(" ")
+                return elems.amount
+            }
+            )
+            return element
+        }
+        }
+        )
+    return element
+    }).filter(element => sales.map(elem => elem.name).includes(element.name) )
+
+
+
+    function search(value) {
+        const item = wholesale.filter(element => element.name == value)
+        return item
+    }
+    function calculate(amount, value, price){
+        numAmount = amount.split(" ")
+        numValue = value.split(" ")
+        calc = Number.parseFloat((numAmount[0] / numValue[0])*price).toFixed(2)
+        return calc
+    }
+
+
+    for(let i=0 ; i < usedIngredients.length ; i++){
+        for(let j=0 ; j < usedIngredients[i].ingredients.length; j++){
+            const item = search(usedIngredients[i].ingredients[j].name)
+            usedIngredients[i].ingredients[j].price = calculate(usedIngredients[i].ingredients[j].amount,item[0].amount,item[0].price)
+            
+        }
+        
+    }
+
+
+
+    let totalIngredienPrice=0
+    for(let i=0 ; i < usedIngredients.length ; i++){
+        for(let j=0 ; j < usedIngredients[i].ingredients.length; j++){
+            
+            totalIngredienPrice +=  Number(usedIngredients[i].ingredients[j].price)
+            
+        }
+        
+    }
+
+    const totalIncomeLastWeek = salesOfLastWeek(bakeryData) - totalIngredienPrice
+
+    
+    return totalIncomeLastWeek
+    
+}    
+
+
+const answerForChallangetThree = totalIncome(bakeryData)
+
+
+console.log(`Answer for Challange - Three : ${answerForChallangetThree}`)
+
+
+

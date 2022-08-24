@@ -11,6 +11,8 @@
 
 //------------------------------------------------------------------------------------
 
+const bakeryData = require('../data/bakery.json')
+
 /**
  * It takes an object with a name and amount property, finds the price of the item with the same name,
  * and returns the product of the price and amount
@@ -56,7 +58,16 @@ function salesOfLastWeek(data) {
   const sumSales = sales.forEach((element) => {
     initValue += income(element);
   });
-  return initValue;
-}
 
-module.exports=salesOfLastWeek;
+  return initValue;
+  
+};
+
+console.log(`Answer for Challange - One : ${salesOfLastWeek(bakeryData)}`)
+
+
+module.exports=
+  salesOfLastWeek
+;
+
+
