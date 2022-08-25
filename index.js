@@ -1,4 +1,4 @@
-const p = require("./src/challanges/chalanges-one.js");
+
 console.log(`
                     Coding Challenge Test
 
