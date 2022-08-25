@@ -14,7 +14,7 @@
 //------------------------------------------------------------------------------------
 
 const bakeryData = require("../data/bakery.json");
-const TaskSumTotalSales = require("./chalanges-one");
+const TaskSumTotalSales = require("./challanges-one");
 const answerTojson = require("../utils/answerTojson");
 const unitconvert = require("../utils/unitcovert");
 

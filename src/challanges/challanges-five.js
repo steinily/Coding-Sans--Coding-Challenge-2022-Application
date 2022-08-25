@@ -113,10 +113,11 @@ const amountIncrease =unitconvert(cakes ,"elem")
     const item = wholesale.filter((element) => element.name == value);
     return item;
   }
-  function calculate(amount, value, price) {
+  function calculate(amount, value, price ) {
     numAmount = amount.split(" ");
     numValue = value.split(" ");
-    calc = (Number.parseFloat((numAmount[0] / numValue[0]) * price));
+    oneWayRoad = Math.ceil(Number(Math.floor(numAmount[0])/numValue[0]))
+    calc = Number(oneWayRoad * price);
     return calc;
   }
 
@@ -126,18 +127,19 @@ const amountIncrease =unitconvert(cakes ,"elem")
       amountIncrease[i].ingredients[j].price = calculate(
         amountIncrease[i].ingredients[j].amount,
         item[0].amount,
-        item[0].price
+        item[0].price,
+
       );
     }
   }
 
-  console.log(amountIncrease.map(elem => console.log(elem)))
+console.log(amountIncrease.map(elem => console.log(elem)))
 /* Calculating the total price of the ingredients. */
 
   let totalIngredienPrice = 0;
   for (let i = 0; i < amountIncrease.length; i++) {
     for (let j = 0; j < amountIncrease[i].ingredients.length; j++) {
-      totalIngredienPrice += Math.floor(Number(amountIncrease[i].ingredients[j].price));
+      totalIngredienPrice += Number(amountIncrease[i].ingredients[j].price);
     }
   }
   return totalIngredienPrice;
@@ -145,5 +147,3 @@ const amountIncrease =unitconvert(cakes ,"elem")
 
 answerTojson(TaskCalcOrderForWedding(bakeryData, cakesForWedding), "answerFive.json");
 
-
-//Problem - Ha a wholesale 10kg de csak 2kg-m van akkor is meg kell venni a 10 kg-t
