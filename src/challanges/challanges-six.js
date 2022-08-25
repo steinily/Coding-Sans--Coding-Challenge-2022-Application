@@ -109,13 +109,13 @@ let finalShopingList = []
   let price = Number(whsale.price) / Number(whsale.amount.split(" ")[0])
 
   let troley = Math.ceil((Number(elem.amount.split(" ")[0])+
-  (Number(elem.amount.split(" ")[0])*0.1)/Number(whsale.amount.split(" ")[0])))
+  (Number(elem.amount.split(" ")[0])*0.1))/Number(whsale.amount.split(" ")[0]))*Number(whsale.amount.split(" ")[0]) 
 
   
   finalShopingList.push({
     name:elem.name,
-    amount:(troley).toFixed(2)+" "+elem.amount.split(" ")[1],
-    totalPrice: Number((troley*price).toFixed(2))
+    amount:(troley).toFixed(0)+" "+elem.amount.split(" ")[1],
+    totalPrice: Number((troley*price).toFixed(0))
   })
 
  } )
@@ -125,4 +125,4 @@ let finalShopingList = []
   return OrderedTaskCalcFutureSales
 }
 console.log(TaskCalcFutureSales())
-//answerTojson(TaskCalcFutureSales(), "answerSix.json");
+answerTojson(TaskCalcFutureSales(), "answerSix.json");
