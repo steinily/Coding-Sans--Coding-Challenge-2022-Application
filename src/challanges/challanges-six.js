@@ -43,15 +43,15 @@ function TaskCalcFutureSales() {
         const unitNum = elems.amount.split(" ");
         switch (unitNum[1]) {
           case "ml":
-            unitNum[0] = Number((unitNum[0] / 1000) * cake.amount).toFixed(2);
+            unitNum[0] = Number((unitNum[0] / 1000) * cake.amount);
             unitNum[1] = "l";
             break;
           case "g":
-            unitNum[0] = Number((unitNum[0] / 1000) * cake.amount).toFixed(2);
+            unitNum[0] = Number((unitNum[0] / 1000) * cake.amount);
             unitNum[1] = "kg";
             break;
           case "pc":
-            unitNum[0] = Number(unitNum[0] * cake.amount).toFixed(2);
+            unitNum[0] = Number(unitNum[0] * cake.amount);
             unitNum[1] = "pc";
             break;
           default:
@@ -78,6 +78,8 @@ function TaskCalcFutureSales() {
     }, {});
   }
 
+
+
   const groupedShoppingList = groupBy(nextTwoWeekSalesIngrediendts.flatMap(elem => elem.ingredients), "name");
 
 let cummShopingList =[]
@@ -100,7 +102,7 @@ let newAmount = Number(elem.amount.split(" ")[0]) - Number(invStock.amount.split
 if (newAmount > 0 ){
   shop.push({
     name:elem.name,
-    amount: (newAmount).toFixed(2) + " " + elem.amount.split(" ")[1] })}
+    amount: (newAmount) + " " + elem.amount.split(" ")[1] })}
 })
 
 let finalShopingList = []
@@ -110,6 +112,9 @@ let finalShopingList = []
 
   let troley = Math.ceil((Number(elem.amount.split(" ")[0])+
   (Number(elem.amount.split(" ")[0])*0.1))/Number(whsale.amount.split(" ")[0]))*Number(whsale.amount.split(" ")[0]) 
+
+
+
 
   
   finalShopingList.push({
@@ -124,5 +129,5 @@ let finalShopingList = []
   const OrderedTaskCalcFutureSales = finalShopingList.sort((a,b) => b.totalPrice - a.totalPrice);
   return OrderedTaskCalcFutureSales
 }
-console.log(TaskCalcFutureSales())
+
 answerTojson(TaskCalcFutureSales(), "answerSix.json");

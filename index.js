@@ -158,9 +158,12 @@ Code:    ./src/challanges/chalanges-five.js
     based on the example below. Remember, the wholesaler needs the 
     amounts in kilograms and liters.
 -----------------------------------------------------------------------------------------
+Javascript
 Answer : ./src/answers/answerSix.json
 Code:    ./src/challanges/chalanges-six.js
-
+Python:
+Answer : ./src/answers/answerSixPython.json
+Code:    ./src/challanges/challangesSix.py
 -----------------------------------------------------------------------------------------
 
 My information:

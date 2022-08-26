@@ -1,0 +1,42 @@
+[
+    {
+        "name": "flour",
+        "amount": "4779 kg",
+        "totalPrice": 716892
+    },
+    {
+        "name": "egg",
+        "amount": "34961 pc",
+        "totalPrice": 699226
+    },
+    {
+        "name": "soy-milk",
+        "amount": "1561 l",
+        "totalPrice": 624448
+    },
+    {
+        "name": "milk",
+        "amount": "2888 l",
+        "totalPrice": 577676
+    },
+    {
+        "name": "vanilin sugar",
+        "amount": "106 kg",
+        "totalPrice": 320958
+    },
+    {
+        "name": "sugar",
+        "amount": "2230 kg",
+        "totalPrice": 267670
+    },
+    {
+        "name": "gluten-free flour",
+        "amount": "326 kg",
+        "totalPrice": 98076
+    },
+    {
+        "name": "fruit",
+        "amount": "14 kg",
+        "totalPrice": 2847
+    }
+]
