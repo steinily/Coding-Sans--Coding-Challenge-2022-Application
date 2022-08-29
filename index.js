@@ -161,9 +161,7 @@ Code:    ./src/challanges/chalanges-five.js
 Javascript
 Answer : ./src/answers/answerSix.json
 Code:    ./src/challanges/chalanges-six.js
-Python:
-Answer : ./src/answers/answerSixPython.json
-Code:    ./src/challanges/challangesSix.py
+
 -----------------------------------------------------------------------------------------
 
 My information:

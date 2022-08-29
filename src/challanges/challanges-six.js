@@ -33,6 +33,14 @@ function TaskCalcFutureSales() {
     return { name: element.name, amount: element.amount * 2 };
   });
 
+  /**
+   * It takes a cake object as an argument and returns a new object with the same name, ingredients and
+   * amount as the cake object, but the amount of ingredients is calculated based on the amount of the
+   * cake
+   * @param cake - {name: "Cake", amount: 1}
+   * @returns const result = cakes.map((cake) =&gt; search(cake));
+   *   console.log(result);
+   */
   const search = (cake) => {
     const elem = recepiesNameAndIngredients.find(
       (element) => element.name == cake.name
@@ -69,6 +77,26 @@ function TaskCalcFutureSales() {
     search(element)
   );
 
+  /**
+   * It takes an array of objects, and returns an object with the keys being the values of the property
+   * you pass in, and the values being an array of objects that have that value for the property.
+   * @param objectArray - nextTwoWeekSalesIngrediendts.flatMap(elem => elem.ingredients)
+   * @param property - "name"
+   * @returns {
+   *   "Apple": [
+   *     {
+   *       "name": "Apple",
+   *       "quantity": "1",
+   *       "unit": "each"
+   *     },
+   *     {
+   *       "name": "Apple",
+   *       "quantity": "1",
+   *       "unit": "each"
+   *     },
+   *     {
+   *       "name": "
+   */
   function groupBy(objectArray, property) {
     return objectArray.reduce((acc, obj) => {
       const key = obj[property];
@@ -78,56 +106,70 @@ function TaskCalcFutureSales() {
     }, {});
   }
 
+  const groupedShoppingList = groupBy(
+    nextTwoWeekSalesIngrediendts.flatMap((elem) => elem.ingredients),
+    "name"
+  );
 
+  /* Taking the groupedShoppingList and adding the amounts of the same ingredients together. */
+  let cummShopingList = [];
+  for (let item of Object.keys(groupedShoppingList)) {
+    let items = Object.values(groupedShoppingList[item]).reduce(
+      (elem, { ...next }) => {
+        if (elem) {
+          elem.amount = Number.parseFloat(elem.amount);
+        }
+        return {
+          name: elem.name,
+          amount:
+            elem.amount +
+            Number(next.amount.split(" ")[0]) +
+            " " +
+            next.amount.split(" ")[1],
+        };
+      }
+    );
+    cummShopingList.push(items);
+  }
 
-  const groupedShoppingList = groupBy(nextTwoWeekSalesIngrediendts.flatMap(elem => elem.ingredients), "name");
+  /* Taking the cummShopingList and subtracting the inventory from it. */
+  let shop = [];
+  cummShopingList.forEach((elem) => {
+    let invStock = inventory.find((item) => item.name === elem.name);
+    let newAmount =
+      Number(elem.amount.split(" ")[0]) * 1.1 -
+      Number(invStock.amount.split(" ")[0]);
+    if (newAmount > 0) {
+      shop.push({
+        name: elem.name,
+        amount: newAmount + " " + elem.amount.split(" ")[1],
+      });
+    }
+  });
 
-let cummShopingList =[]
-for(let item of Object.keys(groupedShoppingList)){
-  let items = Object.values(groupedShoppingList[item]).reduce((elem , {...next}) => {
-   if(elem){
-    elem.amount = Number.parseFloat(elem.amount)
-   }
-    return {
-    name : elem.name,
-    amount : (elem.amount + Number(next.amount.split(" ")[0])).toFixed(2) +" " +  next.amount.split(" ")[1]  }
-  })
-  cummShopingList.push(items)
-}
+  /* Taking the shop array and adding the price and total price to it. */
+  let finalShopingList = [];
+  shop.forEach((elem) => {
+    let whsale = wholesale.find((item) => item.name === elem.name);
+    let price = Number(whsale.price) / Number(whsale.amount.split(" ")[0]);
+    let whamout = Number(whsale.amount.split(" ")[0]);
+    let purchaseAmount = elem.amount.split(" ")[0];
 
-let shop = []
-cummShopingList.forEach(elem =>{ 
-let invStock =inventory.find(item => item.name === elem.name)
-let newAmount = Number(elem.amount.split(" ")[0]) - Number(invStock.amount.split(" ")[0])
-if (newAmount > 0 ){
-  shop.push({
-    name:elem.name,
-    amount: (newAmount) + " " + elem.amount.split(" ")[1] })}
-})
+    let troley = Math.ceil(
+      Math.ceil(Number(purchaseAmount) / whamout) * whamout
+    );
 
-let finalShopingList = []
- shop.forEach(elem =>{
-  let whsale = wholesale.find(item =>item.name === elem.name )
-  let price = Number(whsale.price) / Number(whsale.amount.split(" ")[0])
+    finalShopingList.push({
+      name: elem.name,
+      amount: troley + " " + elem.amount.split(" ")[1],
+      totalPrice: Number(troley * price),
+    });
+  });
 
-  let troley = Math.ceil((Number(elem.amount.split(" ")[0])+
-  (Number(elem.amount.split(" ")[0])*0.1))/Number(whsale.amount.split(" ")[0]))*Number(whsale.amount.split(" ")[0]) 
-
-
-
-
-  
-  finalShopingList.push({
-    name:elem.name,
-    amount:(troley).toFixed(0)+" "+elem.amount.split(" ")[1],
-    totalPrice: Number((troley*price).toFixed(0))
-  })
-
- } )
-
-
-  const OrderedTaskCalcFutureSales = finalShopingList.sort((a,b) => b.totalPrice - a.totalPrice);
-  return OrderedTaskCalcFutureSales
+  const OrderedTaskCalcFutureSales = finalShopingList.sort(
+    (a, b) => b.totalPrice - a.totalPrice
+  );
+  return OrderedTaskCalcFutureSales;
 }
 
 answerTojson(TaskCalcFutureSales(), "answerSix.json");
